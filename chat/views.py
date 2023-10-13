@@ -5,7 +5,6 @@ from .forms import RegistrationForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, authenticate
-from . forms import LoginForm
 
 
 class RegistrationView(CreateView):
@@ -44,5 +43,10 @@ class CustomLoginView(LoginView):
 class CustomLogoutView(LogoutView):
     next_page = 'login' 
 
+
 def index(request):
-    return render(request, 'index.html')
+    return render(request, "index.html")
+
+
+def room(request, room_name):
+    return render(request, "chat/room.html", {"room_name": room_name})

@@ -2,6 +2,7 @@ from django import forms
 from .models import CustomUser
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from .models import ChatRoom
 
 
 from django import forms
@@ -31,3 +32,18 @@ class RegistrationForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords do not match.")
         return password2
+    
+class CreateRoomForm(forms.ModelForm):
+    class Meta:
+        model = ChatRoom
+        fields = ['name']
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if ChatRoom.objects.filter(name=name).exists():
+            raise forms.ValidationError("A chat room with this name already exists.")
+        return name
+    
+
+class MessageForm(forms.Form):
+    content = forms.CharField(widget=forms.TextInput(attrs={'class': 'message-input'}))
