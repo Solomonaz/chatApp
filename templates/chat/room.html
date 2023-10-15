@@ -11,6 +11,9 @@
 <input id="chat-message-submit" type="button" value="Send">
 {{ room_name|json_script:"room-name" }}
 
+{{user.id|json_script:"json-username"}}
+{{user.username|json_script:"json-username-receiver"}}
+{{request.user.username|json_script:"json-message-username"}}
 
 {% endblock content %}
 

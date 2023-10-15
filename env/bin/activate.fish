@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/solomon/Desktop/projects/UserManagement/env"
+set -gx VIRTUAL_ENV "/home/solomon/Desktop/Chat/chatApp/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

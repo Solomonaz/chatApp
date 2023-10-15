@@ -7,5 +7,5 @@ urlpatterns = [
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     path('index/', views.index, name='index'),
         # path("", views.index, name="index"),
-    path("<str:room_name>/", views.room, name="room"),
+    path("<str:username>/", views.chatpage, name="chatpage"),
 ]
