@@ -84,6 +84,7 @@ def index(request):
 
 def chatpage(request, username):
     user_obj = CustomUser.objects.get(username=username)
+    print(user_obj)
     users = CustomUser.objects.exclude(username=request.user.username)
     context = {
         'user_obj':user_obj, 
