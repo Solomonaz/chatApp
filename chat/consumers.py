@@ -2,7 +2,6 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 # from chat.models import ChatModel, UserProfileModel, ChatNotification
-from django.contrib.auth.models import User
 
 
 class PersonalChatConsumer(AsyncWebsocketConsumer):
@@ -43,7 +42,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
-
+        print(message)
         await self.send(text_data=json.dumps({
             'message': message,
             'username': username
@@ -54,6 +53,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
 
 #     @database_sync_to_async
 #     def save_message(self, username, thread_name, message, receiver):

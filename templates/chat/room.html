@@ -7,19 +7,17 @@
 
 {% block content %}
 
-
-
 <section style="background-color: #eee;">
     <div class="container py-5">
         <div class="row">
             <div class="col-md-5 col-lg-4 col-xl-4 mb-4 mb-md-0 border mx-2">
-                <h5 class="text-capitalize mb-2">{{user_obj}}</h5>
+                <h5 class="text-capitalize mb-2 text-center">{{request.user.username}}</h5>
                 <div class="card">
                     <div class="card-body">
 
                         <ul class="list-unstyled mb-0">
                             {% for user in users %}
-                            <li class="p-2 border-bottom" style="background-color: #eee;">
+                            <li class="p-2 border-bottom">
                                 <a href="{% url 'chatpage' username=user.username %}"
                                     class="d-flex justify-content-between">
                                     <div class="d-flex flex-row">
@@ -66,6 +64,7 @@
             </div>
 
             <div class="col-md-5 col-lg-6 col-xl-6 border">
+                <h5 class="text-capitalize mb-2 text-center">{{user_obj}}</h5>
                 <ul class="list-unstyled">
                     <li class="d-flex justify-content-between mb-4">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
@@ -118,6 +117,7 @@
                             </div>
                         </div>
                     </li>
+
                     <form method="POST">
                         {% csrf_token %}
                         <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
@@ -138,47 +138,12 @@
 
 {{user.id|json_script:"json-username"}}
 {{request.user.username|json_script:"json-message-username"}}
+{{user.username|json_script:"json-username-receiver"}}
 
 {% endblock content %}
 
 {% block javascripts %}
 
-<!-- <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/gelaw/'
-            + roomName
-            + '/'
-        );
-
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script> -->
 <script src="{% static 'js/chat.js' %}"></script>
 
 {% endblock javascripts %}
