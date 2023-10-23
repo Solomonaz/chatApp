@@ -137,8 +137,8 @@
 </section>
 
 {{user.id|json_script:"json-username"}}
-{{request.user.username|json_script:"json-message-username"}}
 {{user.username|json_script:"json-username-receiver"}}
+{{request.user.username|json_script:"json-message-username"}}
 
 {% endblock content %}
 

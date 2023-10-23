@@ -8,6 +8,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, authenticate
 from datetime import datetime
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -62,18 +64,18 @@ def index(request):
         hours = int(time_difference.total_seconds() / 3600)
         user_status = f'Last seen {hours} hr ago'
 
-    if request.method == 'POST':
-        content = request.POST.get('content')
-        sender = request.user
-        recipient = users[1:]
+    # if request.method == 'POST':
+    #     content = request.POST.get('content')
+    #     sender = request.user
+    #     recipient = users[1:]
 
-        message_content = Message(
-           content = content,
-           sender = sender,
-           recipient = recipient,
-        )
-        message_content.save()
-        return redirect('index')
+    #     message_content = Message(
+    #        content = content,
+    #        sender = sender,
+    #        recipient = recipient,
+    #     )
+    #     message_content.save()
+    #     return redirect('index')
     context = {
         'users': users,
         'user_status': user_status,
@@ -85,8 +87,42 @@ def index(request):
 def chatpage(request, username):
     user_obj = CustomUser.objects.get(username=username)
     users = CustomUser.objects.exclude(username=request.user.username)
+
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        sender = request.user
+        recipient = CustomUser.objects.get(username=username)
+        room = ChatRoom.objects.filter(sender=sender, participants=recipient).first()
+
+        message = Message.objects.create(
+            room=room,
+            content=content,
+            sender=sender,
+            recipient=recipient
+        )
+        message.save()
+        return redirect('chatpage', username=username)
     context = {
         'user_obj':user_obj, 
         'users':users,
     }
     return render(request, "chat/room.html", context)
+
+
+
+# @login_required
+# def submit_message(request, username):
+#     if request.method == 'POST':
+#         content = request.POST.get('content')
+#         sender = request.user
+#         recipient = CustomUser.objects.get(username=username)
+
+#         message = Message.objects.create(
+#             room=None,
+#             content=content,
+#             sender=sender,
+#             recipient=recipient
+#         )
+#         message.save()
+
+#         return redirect('chatpage', username=username)
